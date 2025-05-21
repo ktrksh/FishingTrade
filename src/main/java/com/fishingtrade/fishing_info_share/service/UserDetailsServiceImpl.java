@@ -26,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             logger.debug("User not found with email: {}", email);
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
+        logger.debug("Found user: Username - {}, Email - {}, Password - {}", user.getUsername(), user.getEmail(), user.getPassword());
         UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())

@@ -9,13 +9,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final UserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private HandlerMappingIntrospector introspector;
+
+    @Autowired
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -32,19 +41,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/users/register", "/catches/register").permitAll() // 登録画面は認証なしでアクセス可能
-                        .anyRequest().authenticated() // その他のリクエストは認証が必要
+        MvcRequestMatcher h2ConsoleMatcher = new MvcRequestMatcher(introspector, "/h2-console/**");
+        http.authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(h2ConsoleMatcher).permitAll()
+                        .requestMatchers("/users/register", "/catches/register").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/users/login") // カスタムログインページを指定
+                        .loginPage("/users/login")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .permitAll());
+                        .permitAll())
+                .csrf(csrf -> csrf.ignoringRequestMatchers(h2ConsoleMatcher))
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
-        http.authenticationProvider(authenticationProvider()); // こちらで authenticationProvider を設定
+        http.authenticationProvider(authenticationProvider());
         return http.build();
     }
 }
