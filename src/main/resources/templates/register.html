@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アカウント登録</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>アカウント登録</h1>
+    <form th:action="@{/users/register}" method="post" th:object="${user}">
+        <div th:if="${#fields.hasErrors('username')}" style="color: red;" th:errors="*{username}"></div>
+        <div>
+            <label for="username">ユーザー名</label>
+            <input type="text" id="username" th:field="*{username}" required>
+        </div>
+        <div th:if="${#fields.hasErrors('email')}" style="color: red;" th:errors="*{email}"></div>
+        <div>
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" th:field="*{email}" required>
+        </div>
+        <div th:if="${#fields.hasErrors('password')}" style="color: red;" th:errors="*{password}"></div>
+        <div>
+            <label for="password">パスワード</label>
+            <input type="password" id="password" th:field="*{password}" required>
+        </div>
+        <div>
+            <label for="confirmPassword">パスワード確認</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+        <button type="submit">登録する</button>
+        <p>すでにアカウントをお持ちですか？ <a th:href="@{/users/login}">ログイン</a></p>
+    </form>
+</body>
+</html>

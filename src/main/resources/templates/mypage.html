@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>マイページ</h1>
+    <h2 th:text="${username}">ユーザー名</h2>
+    <div>
+        <a th:href="@{/catches/register}">釣果を登録する</a>
+    </div>
+    <h2>自分の釣果一覧</h2>
+    <div th:each="catch : ${catches}">
+        <p th:text="${catch.species} + ': ' + ${catch.count} + '匹 (' + #dates.format(catch.caughtAt, 'yyyy/MM/dd HH:mm') + ')'"></p>
+        <a th:href="@{/catches/detail/{id}(id=${catch.id})}">詳細</a>
+    </div>
+    <h2>受信したオファー</h2>
+    <div th:each="offer : ${receivedOffers}">
+        <p th:text="${offer.offeringUser.username} + 'さんからのオファー（' + ${offer.requestedCatch.species} + '）'"></p>
+        <a th:href="@{/offers/detail/{id}(id=${offer.id})}">詳細</a>
+    </div>
+</body>
+</html>

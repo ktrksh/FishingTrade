@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>釣果情報等価交換サイト - トップページ</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1 th:text="${welcomeMessage}">釣果情報等価交換サイト</h1>
+    <p>このサイトでは、釣果情報を共有し、他のユーザーと情報を交換することができます。</p>
+    <div>
+        <a th:href="@{/users/register}">新規登録</a>
+        <a th:href="@{/users/login}">ログイン</a>
+    </div>
+    </body>
+</html>

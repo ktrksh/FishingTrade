@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オファー詳細</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>オファー詳細</h1>
+    <div class="card" style="background-color: #e8f4f8;">
+        <h4 th:text="${offer.offeringUser.username} + 'さんからのオファー'">釣り次郎さんからのオファー</h4>
+        <p><strong>あなたの釣果情報:</strong></p>
+        <div style="background-color: #fff; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+            <strong th:text="${#dates.format(offer.requestedCatch.caughtAt, 'yyyy/MM/dd HH:mm')}">2025/05/15 13:30</strong><br>
+            <span th:text="${offer.requestedCatch.species}">タイ</span>：<span th:text="${offer.requestedCatch.count}">2</span>匹
+        </div>
+
+        <p><strong>相手の釣果情報:</strong></p>
+        <div style="background-color: #fff; padding: 10px; border-radius: 4px;">
+            <strong th:text="${#dates.format(offeredCatch.caughtAt, 'yyyy/MM/dd HH:mm')}">2025/05/18 09:15</strong><br>
+            <span th:text="${offeredCatch.species}">ブリ</span>：<span th:text="${offeredCatch.count}">2</span>匹
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <p>オファーを承認すると、お互いの釣果の詳細情報（場所、仕掛けなど）が共有されます。</p>
+        <div style="display: flex; justify-content: space-between;">
+            <form th:action="@{/offers/approve/{id}(id=${offer.id})}" method="post" style="width: 48%;">
+                <button type="submit" class="btn-success" style="width: 100%;">承認する</button>
+            </form>
+            <form th:action="@{/offers/reject/{id}(id=${offer.id})}" method="post" style="width: 48%;">
+                <button type="submit" class="btn-danger" style="width: 100%;">拒否する</button>
+            </form>
+        </div>
+    </div>
+    <a th:href="@{/offers/received}">受信したオファー一覧に戻る</a>
+</body>
+</html>

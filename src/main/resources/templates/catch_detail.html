@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>釣果詳細情報</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>釣果詳細情報</h1>
+    <div class="card">
+        <h4 th:text="${catch.user.username} + 'さんの釣果'">釣り次郎さんの釣果</h4>
+        <table class="table">
+            <tr>
+                <th>日時</th>
+                <td th:text="${#dates.format(catch.caughtAt, 'yyyy/MM/dd HH:mm')}">2025/05/18 09:15</td>
+            </tr>
+            <tr>
+                <th>魚種</th>
+                <td th:text="${catch.species}">ブリ</td>
+            </tr>
+            <tr>
+                <th>数量</th>
+                <td th:text="${catch.count}">2匹</td>
+            </tr>
+            <tr>
+                <th>場所</th>
+                <td th:text="${catch.location}">神奈川県三浦市城ヶ島沖</td>
+            </tr>
+            <tr>
+                <th>仕掛け</th>
+                <td th:text="${catch.tackle}">メタルジグ 60g ブルーピンク</td>
+            </tr>
+            <tr>
+                <th>備考</th>
+                <td th:text="${catch.notes}">朝マズメ、潮が緩んだタイミングで</td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-top: 20px; text-align: center;">
+        <a th:href="@{/catches/list}">戻る</a>
+    </div>
+</body>
+</html>

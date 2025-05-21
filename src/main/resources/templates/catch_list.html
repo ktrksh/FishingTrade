@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公開釣果一覧</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>公開釣果一覧</h1>
+    <div>
+        <input type="text" placeholder="魚種で検索...">
+        <button>検索</button>
+    </div>
+    <div th:each="catch : ${catches}">
+        <div class="card">
+            <div>
+                <strong th:text="${catch.user.username}">ユーザー名</strong><br>
+                <span th:text="${#dates.format(catch.caughtAt, 'yyyy/MM/dd HH:mm')}">日時</span><br>
+                <span th:text="${catch.species}">魚種</span>：<span th:text="${catch.count}">数量</span>匹
+            </div>
+            <form th:action="@{/offers/send/{id}(id=${catch.id})}" method="post">
+                <button type="submit">情報交換オファーを送る</button>
+            </form>
+        </div>
+    </div>
+    <a th:href="@{/mypage}">マイページに戻る</a>
+</body>
+</html>
