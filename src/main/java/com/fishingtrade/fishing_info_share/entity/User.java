@@ -4,8 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table; // この行を追加
+
+
 
 @Entity
+@Table(name = "users") // この行を追加
+
 public class User {
 
     @Id
