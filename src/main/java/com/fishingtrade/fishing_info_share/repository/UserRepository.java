@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    // 必要に応じて、findByEmail(String email) などのカスタムメソッドを追加できます。
+public interface UserRepository extends JpaRepository<User, Long> { // Long は User エンティティの ID の型に合わせてください
+    User findByEmail(String email);
 }
